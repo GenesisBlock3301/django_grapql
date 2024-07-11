@@ -17,7 +17,7 @@ class BookType(DjangoObjectType):
 
 class Query(graphene.ObjectType):
     """
-    Query for restaurants model
+    Query for author & book model
     """
     authors = graphene.List(AuthorType)
     books = graphene.List(BookType)
@@ -26,4 +26,4 @@ class Query(graphene.ObjectType):
         return Author.objects.all()
 
     def resolve_books(self, info, **kwargs):
-        return Book.objects.all()
+        return Book.objects.prefetch_related('authors').all()
